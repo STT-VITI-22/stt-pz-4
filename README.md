@@ -15,7 +15,7 @@
 * Understand how to use Jest spyOn
 * Setting up the testing environment
 * Build and run them
-* Code coverage must be mote than 90%
+* Code coverage must be more than 90%
 
 
 ### Getting started
