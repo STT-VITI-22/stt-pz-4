@@ -1,4 +1,4 @@
-import {Calculator} from './Calculator';
+const { Calculator } = require('./Calculator');
 
 describe('Test suite for Calculator.ts', () => {
   let calculator;
@@ -29,10 +29,19 @@ describe('Test suite for Calculator.ts', () => {
   });
 
   it('printDigit should to be called in calculator.paste', () => {
+    // Встановлюємо значення у localStorage
+    const expectedValue = '123';
+    localStorage.setItem('result', expectedValue);
+  
     const onSpy = jest.spyOn(calculator, 'printDigit');
     calculator.paste();
-    expect(onSpy).toHaveBeenCalled();
+    expect(onSpy).toHaveBeenCalledWith(expectedValue);
+  
+    // Очищаємо localStorage
+    localStorage.clear();
   });
+  
+  
 
   describe('printAction', () => {
     it('printAction should to be defined', () => {
