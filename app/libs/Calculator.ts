@@ -8,7 +8,7 @@ export class Calculator {
   //constructor
   constructor() {
     this.dashboard = document.getElementById("dashboard") as HTMLInputElement;
-    this.setTheme('theme-one');
+    this.setTheme("theme-one");
   }
 
   printAction(val: string): void {
@@ -45,16 +45,16 @@ export class Calculator {
   }
 
   toggleTheme() {
-    let theme = localStorage.getItem('theme');
+    let theme = localStorage.getItem("theme");
 
-    if (theme === 'theme-second') {
-      theme = 'theme-one'
-    } else if (theme === 'theme-one') {
-      theme = 'theme-second'
+    if (theme === "theme-second") {
+      theme = "theme-one";
+    } else if (theme === "theme-one") {
+      theme = "theme-second";
     }
     setTimeout(() => {
       this.setTheme(theme);
-    }, 500)
+    }, 500);
   }
 
   save() {
@@ -62,7 +62,13 @@ export class Calculator {
   }
 
   paste() {
-    this.printDigit(localStorage.getItem('result'))
+    const savedResult = localStorage.getItem('result');
+    if (savedResult) {
+      this.dashboard.value = ''; // Очищення dashboard перед вставкою
+      for (const digit of savedResult) {
+        this.printDigit(digit);
+      }
+    }
   }
 
 }
