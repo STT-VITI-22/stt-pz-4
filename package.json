@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
-    "dev": " NODE_ENV=dev webpack-dev-server --progress=profile --color --port 8081",
+    "dev": " NODE_ENV=dev webpack-dev-server --progress=profile --color --port 8082",
     "prod": "NODE_ENV=prod webpack --config webpack.production.config.js"
   },
   "repository": {
