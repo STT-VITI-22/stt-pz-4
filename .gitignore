@@ -8,7 +8,7 @@
 /out-tsc
 /storybook-static
 /docs
-/tests/kendo-themes/tests/visual/s2tyles
+/tests/kendo-themes/tests/visual/styles
 
 # dependencies
 /node_modules
