@@ -1,4 +1,6 @@
-import { evaluate } from 'mathjs'
+import { evaluate } from 'mathjs';
+
+
 
 export class Calculator {
 
@@ -7,63 +9,80 @@ export class Calculator {
 
   //constructor
   constructor() {
-    this.dashboard = document.getElementById("dashboard") as HTMLInputElement;
+    let dashboardElement = document.getElementById("dashboard") as HTMLInputElement;
+    if (!dashboardElement) {
+      dashboardElement = document.createElement('input');
+      dashboardElement.type = 'text';
+      dashboardElement.id = 'dashboard';
+      dashboardElement.className = 'app-result';
+      document.body.appendChild(dashboardElement);
+    }
+    this.dashboard = dashboardElement;
     this.setTheme('theme-one');
   }
 
+
+
   printAction(val: string): void {
+    const lastChar = this.dashboard.value[this.dashboard.value.length - 1];
+
     if (val === '+/-') {
-      let firstDigit = this.dashboard.value[0]
-      if (firstDigit === '-') {
-        this.dashboard.value = this.dashboard.value.slice(1, this.dashboard.value.length)
+      if (this.dashboard.value.startsWith('-')) {
+        this.dashboard.value = this.dashboard.value.slice(1);
       } else {
-        this.dashboard.value = '-' + this.dashboard.value
+        this.dashboard.value = '-' + this.dashboard.value;
       }
-    } else if (this.actions.includes(this.dashboard.value[this.dashboard.value.length - 1])
-      || this.dashboard.value.length === 0) {
-    } else {
-      this.dashboard.value += val
+    } else if (!this.actions.includes(lastChar) && this.dashboard.value.length > 0) {
+      this.dashboard.value += val;
     }
   }
 
-  printDigit(val: string) {
-    this.dashboard.value += val
+  printDigit(val: string): void {
+    this.dashboard.value += val;
   }
 
-  solve() {
-    let expression = this.dashboard.value
-    this.dashboard.value = evaluate(expression)
+  solve(): void {
+    try {
+      const expression = this.dashboard.value;
+      this.dashboard.value = evaluate(expression).toString();
+    } catch (error) {
+      this.dashboard.value = 'Error';
+    }
   }
 
-  clr() {
-    this.dashboard.value = ''
+
+  clr(): void {
+    this.dashboard.value = '';
   }
 
-  setTheme(themeName) {
+  setTheme(themeName: string): void {
     localStorage.setItem('theme', themeName);
-    document.querySelector('body').className = themeName;
+    document.body.className = themeName;
   }
 
-  toggleTheme() {
-    let theme = localStorage.getItem('theme');
+  toggleTheme(): void {
+    let theme = localStorage.getItem('theme') || 'theme-one';
 
-    if (theme === 'theme-second') {
-      theme = 'theme-one'
-    } else if (theme === 'theme-one') {
-      theme = 'theme-second'
+    if (theme === 'theme-one') {
+      theme = 'theme-second';
+    } else {
+      theme = 'theme-one';
     }
-    setTimeout(() => {
-      this.setTheme(theme);
-    }, 500)
+
+    this.setTheme(theme);
   }
 
-  save() {
-    localStorage.setItem('result', this.dashboard.value);
+  // save(): void {
+  //   localStorage.setItem('result', this.dashboard.value);
+  // }
+
+  paste(): void {
+    const result = localStorage.getItem('result');
+    if (result) {
+      this.printDigit(result);
+    }
   }
 
-  paste() {
-    this.printDigit(localStorage.getItem('result'))
-  }
 
 }
 
