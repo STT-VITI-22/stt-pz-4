@@ -1,35 +1,87 @@
-import {Calculator} from './Calculator';
+import { Calculator } from './Calculator';
 
-describe('Test suite for Calculator.ts', () => {
+describe('BDD test suite for calculator', () => {
   let calculator;
+  let inputResult;
   beforeAll(() => {
-    let inputResult = document.createElement("input");
-    inputResult.type = "text";
-    inputResult.id = 'dashboard'
-    inputResult.className = "app-result";
+    inputResult = document.createElement('input');
+    inputResult.type = 'text';
+    inputResult.id = 'dashboard';
+    inputResult.className = 'app-result';
 
     calculator = new Calculator()
     calculator.dashboard = inputResult;
   });
 
-  it('printDigit should to be defined', () => {
-    expect(calculator.printDigit).toBeDefined();
+  describe('Feature: Print Digits', () => {
+    it('should define printDigit method', () => {
+      expect(calculator.printDigit).toBeDefined();
+    });
+
+    it('should add new digit to dashboard value', () => {
+      calculator.clr();
+      calculator.printDigit('5');
+      calculator.printDigit('3');
+      expect(calculator.dashboard.value).toBe('53');
+    });
   });
 
-  it('printDigit should add new value', () => {
-    calculator.printDigit('5');
-    calculator.printDigit('5');
-    expect(calculator.dashboard.value).toBe('55');
+  describe('Feature: Print Actions', () => {
+    it('should define printAction method', () => {
+      expect(calculator.printAction).toBeDefined();
+    });
+
+    it('should add action to dashboard value', () => {
+      calculator.clr();
+      calculator.printDigit('5');
+      calculator.printAction('+');
+      calculator.printDigit('3');
+      expect(calculator.dashboard.value).toBe('5+3');
+    });
   });
 
-  it('printDigit should to be call in calculator.paste', () => {
-    const onSpy = jest.spyOn(calculator, 'printDigit');
-    calculator.paste()
-    expect(onSpy).toHaveBeenCalled();
+  describe('Feature: Paste', () => {
+    it('should call printDigit when paste is invoked', () => {
+      const spyOnPrintDigit = jest.spyOn(calculator, 'printDigit');
+      calculator.paste();
+      expect(spyOnPrintDigit).toHaveBeenCalled();
+    });
   });
 
-  it('printAction should to be defined', () => {
-    expect(calculator.printAction).toBeDefined();
+  describe('Feature: clr', () => {
+    it('should define clr method', () => {
+      expect(calculator.clr).toBeDefined();
+    });
+
+    it('should clr the dashboard value', () => {
+      calculator.printDigit('5');
+      calculator.clr();
+      expect(calculator.dashboard.value).toBe('');
+    });
+  });
+
+  describe('Feature: Calculate', () => {
+    it('should define calculate method', () => {
+      expect(calculator.solve).toBeDefined();
+    });
+
+    it('should evaluate and display the result', () => {
+      calculator.clr();
+      calculator.printDigit('5');
+      calculator.printAction('+');
+      calculator.printDigit('3');
+      calculator.solve();
+      expect(calculator.dashboard.value).toBe('8');
+    });
+
+    it('should handle invalid expressions', () => {
+      calculator.clr();
+      calculator.printDigit('5');
+      calculator.printAction('+');
+      calculator.printAction('*');
+      calculator.solve();
+      expect(calculator.dashboard.value).toBe('Error');
+    });
   });
 
 });
