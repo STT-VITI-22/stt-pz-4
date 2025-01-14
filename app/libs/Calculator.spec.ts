@@ -67,8 +67,8 @@ describe("Calculator class tests", () => {
   });
 
   it("should handle invalid paste values gracefully", () => {
-    localStorage.setItem("result", null as any); // Зберігаємо в localStorage значення null
-    calculator.paste(); // Викликаємо paste, щоб вставити значення з localStorage
-    expect(calculator.dashboard.value).toBe(""); // Перевіряємо, що на дисплеї порожній рядок
+    localStorage.setItem("result", null as any); 
+    calculator.paste(); 
+    expect(calculator.dashboard.value).toBe(""); 
   });
 });
