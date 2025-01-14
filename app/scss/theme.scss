@@ -1,9 +1,8 @@
-@import "variables";
-@import "mixin";
+@use "variables" as *;
+@use "mixin" as *;
 
 .theme-one {
   @include theme($button-operator-theme-one, $button-digit-theme-one);
-
 }
 .theme-second {
   @include theme($button-operator-theme-second, $button-digit-theme-second);

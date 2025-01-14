@@ -1,37 +1,74 @@
-import {Calculator} from './Calculator';
+import { Calculator } from "./Calculator";
 
-describe('Test suite for Calculator.ts', () => {
-  let calculator;
-  beforeAll(() => {
-    let inputResult = document.createElement("input");
-    inputResult.type = "text";
-    inputResult.id = 'dashboard'
-    inputResult.className = "app-result";
+describe("Calculator class tests", () => {
+  let calculator: Calculator;
 
-    calculator = new Calculator()
-    calculator.dashboard = inputResult;
+  beforeEach(() => {
+    document.body.innerHTML = `<input id="dashboard" class="app-result" type="text" />`;
+    calculator = new Calculator();
   });
 
-  it('printDigit should to be defined', () => {
-    expect(calculator.printDigit).toBeDefined();
+  it("should initialize with a default theme", () => {
+    expect(document.body.className).toBe("theme-one");
   });
 
-  it('printDigit should add new value', () => {
-    calculator.printDigit('5');
-    calculator.printDigit('5');
-    expect(calculator.dashboard.value).toBe('55');
+  it("should append digits correctly", () => {
+    calculator.printDigit("5");
+    calculator.printDigit("3");
+    expect(calculator.dashboard.value).toBe("53");
   });
 
-  it('printDigit should to be call in calculator.paste', () => {
-    const onSpy = jest.spyOn(calculator, 'printDigit');
-    calculator.paste()
-    expect(onSpy).toHaveBeenCalled();
+  it("should handle +/- action correctly", () => {
+    calculator.dashboard.value = "123";
+    calculator.printAction("+/-");
+    expect(calculator.dashboard.value).toBe("-123");
+    calculator.printAction("+/-");
+    expect(calculator.dashboard.value).toBe("123");
   });
 
-  it('printAction should to be defined', () => {
-    expect(calculator.printAction).toBeDefined();
+  it("should append valid actions correctly", () => {
+    calculator.dashboard.value = "123";
+    calculator.printAction("+");
+    expect(calculator.dashboard.value).toBe("123+");
   });
 
+  it("should not append action if the last character is already an action", () => {
+    calculator.dashboard.value = "123+";
+    calculator.printAction("*");
+    expect(calculator.dashboard.value).toBe("123+");
+  });
+
+  it("should solve mathematical expressions", () => {
+    calculator.dashboard.value = "2+3*4";
+    calculator.solve();
+    expect(calculator.dashboard.value).toBe("14");
+  });
+
+  it("should clear the dashboard", () => {
+    calculator.dashboard.value = "123";
+    calculator.clr();
+    expect(calculator.dashboard.value).toBe("");
+  });
+
+  it("should toggle themes correctly", () => {
+    calculator.toggleTheme();
+    expect(document.body.className).toBe("theme-second");
+
+    calculator.toggleTheme();
+    expect(document.body.className).toBe("theme-one");
+  });
+
+  it("should save and paste values using localStorage", () => {
+    calculator.dashboard.value = "42";
+    calculator.save();
+    calculator.clr();
+    calculator.paste();
+    expect(calculator.dashboard.value).toBe("42");
+  });
+
+  it("should handle invalid paste values gracefully", () => {
+    localStorage.setItem("result", null as any); // Зберігаємо в localStorage значення null
+    calculator.paste(); // Викликаємо paste, щоб вставити значення з localStorage
+    expect(calculator.dashboard.value).toBe(""); // Перевіряємо, що на дисплеї порожній рядок
+  });
 });
-
-

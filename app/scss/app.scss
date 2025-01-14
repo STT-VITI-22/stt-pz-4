@@ -1,13 +1,13 @@
-@import "reset";
-@import "variables";
-@import "theme";
+@use "variables";
+@use "mixin";
+@use "theme";
 
-body{
+body {
   min-width: 400px;
   background-color: #181717;
 }
 
-table{
+table {
   border: none;
   margin-left: auto;
   margin-right: auto;
