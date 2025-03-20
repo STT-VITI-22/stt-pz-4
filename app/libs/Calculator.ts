@@ -1,9 +1,11 @@
-import { evaluate } from 'mathjs'
+import {evaluate} from 'mathjs'
 
 export class Calculator {
 
   actions: Array<string> = ['+', '-', '*', '/', '.', '%'];
   dashboard: HTMLInputElement;
+
+  INVALID_OPERATION: string = "INVALID"
 
   //constructor
   constructor() {
@@ -32,7 +34,11 @@ export class Calculator {
 
   solve() {
     let expression = this.dashboard.value
-    this.dashboard.value = evaluate(expression)
+    try {
+      this.dashboard.value = evaluate(expression)
+    } catch (err) {
+      this.dashboard.value = this.INVALID_OPERATION
+    }
   }
 
   clr() {
@@ -52,9 +58,8 @@ export class Calculator {
     } else if (theme === 'theme-one') {
       theme = 'theme-second'
     }
-    setTimeout(() => {
-      this.setTheme(theme);
-    }, 500)
+
+    this.setTheme(theme);
   }
 
   save() {
