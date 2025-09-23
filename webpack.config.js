@@ -36,19 +36,11 @@ module.exports = {
           'style-loader',
           {
             loader: 'css-loader',
-            options: {
-              sourceMap: true
-            }
+            options: { sourceMap: true }
           },
           {
             loader: 'sass-loader',
-            options: {
-              sassOptions: {
-                includePaths: [
-                ],
-                sourceMap: true
-              }
-            }
+            options: { sourceMap: true }
           }
         ]
       },
@@ -58,32 +50,18 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'hash=sha512&digest=hex&name=[hash].[ext]',
+              name: '[hash].[ext]',
               esModule: false,
             }
           },
           {
             loader: 'image-webpack-loader',
             options: {
-              mozjpeg: {
-                progressive: true,
-                quality: 65
-              },
-              // optipng.enabled: false will disable optipng
-              optipng: {
-                enabled: false,
-              },
-              pngquant: {
-                quality: [0.65, 0.90],
-                speed: 4
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              // the webp option will enable WEBP
-              webp: {
-                quality: 75
-              }
+              mozjpeg: { progressive: true, quality: 65 },
+              optipng: { enabled: false },
+              pngquant: { quality: [0.65, 0.90], speed: 4 },
+              gifsicle: { interlaced: false },
+              webp: { quality: 75 }
             }
           }
         ]
@@ -94,12 +72,11 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(otf|eot|svg|ttf|woff2|woff)/,
+        test: /\.(otf|eot|svg|ttf|woff2?|woff)$/,
         use: 'url-loader?limit=8192',
         exclude: /img/
       }
     ]
-
   },
   resolve: {
     extensions: ['.ts', '.js']
@@ -108,7 +85,18 @@ module.exports = {
     new HtmlWebpackPlugin({ template: './app/index.html' }),
     new webpack.DefinePlugin({
       ENV: JSON.stringify(process.env.NODE_ENV),
-      HASH: JSON.stringify(new Date().getTime().toString('16'))
+      HASH: JSON.stringify(new Date().getTime().toString(16))
     })
-  ]
+  ],
+
+  // 👇 додано для webpack-dev-server v5
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'public'), // як у тебе було в логах
+    },
+    port: 8081,
+    hot: true,
+    open: true,
+    historyApiFallback: true
+  }
 }
