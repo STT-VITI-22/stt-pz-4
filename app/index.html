@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Calculator</title>
 </head>
 <body>
 <header>
   <ul class="app-control-bar">
     <li>
-      <button class="app-button-long app-button-digit" data-test="btn-theme" type="button"
+      <button class="app-button-long" data-test="btn-theme" type="button"
               onclick="calculator.toggleTheme()">
         theme
       </button>
     </li>
     <li>
-      <button class="app-button-long app-button-digit" data-test="btn-save" type="button" onclick="calculator.save()">
+      <button class="app-button-long" data-test="btn-save" type="button" onclick="calculator.save()">
         Save
       </button>
     </li>
     <li>
-      <button class="app-button-long app-button-digit" data-test="btn-paste" type="button" onclick="calculator.paste()">
+      <button class="app-button-long" data-test="btn-paste" type="button" onclick="calculator.paste()">
         Paste
       </button>
     </li>
@@ -39,38 +39,32 @@
       </td>
       <td>
         <button class="app-button app-button-operator" type="button" data-test="btn-plus-minus"
-                onclick="calculator.printAction('+/-')">+/-
-        </button>
+                onclick="calculator.printAction('+/-')">+/-</button>
       </td>
       <td>
         <button class="app-button app-button-operator" type="button" data-test="btn-percentages"
-                onclick="calculator.printAction('%')">%
-        </button>
+                onclick="calculator.printAction('%')">%</button>
       </td>
       <td>
         <button class="app-button app-button-operator" type="button" data-test="btn-slash"
-                onclick="calculator.printAction('/')">
-          /
-        </button>
+                onclick="calculator.printAction('/')">/</button>
       </td>
     </tr>
     <tr>
       <td>
-        <button class="app-button app-button-digit" type="button" onclick="calculator.calculator.printDigit('7')">7
-        </button>
+        <!-- Виправлено: видалено зайвий 'calculator.' -->
+        <button class="app-button app-button-digit" type="button" onclick="calculator.printDigit('7')">7</button>
       </td>
       <td>
         <button class="app-button app-button-digit" type="button" onclick="calculator.printDigit('8')">8</button>
       </td>
       <td>
         <button class="app-button app-button-digit" type="button" data-test="btn-9"
-                onclick="calculator.printDigit('9')">9
-        </button>
+                onclick="calculator.printDigit('9')">9</button>
       </td>
       <td>
         <button class="app-button app-button-operator" type="button" data-test="btn-multiply"
-                onclick="calculator.printAction('*')">*
-        </button>
+                onclick="calculator.printAction('*')">*</button>
       </td>
     </tr>
     <tr>
@@ -82,52 +76,43 @@
       </td>
       <td>
         <button class="app-button app-button-digit" type="button" data-test="btn-6"
-                onclick="calculator.printDigit('6')">6
-        </button>
+                onclick="calculator.printDigit('6')">6</button>
       </td>
       <td>
         <button class="app-button app-button-operator" type="button" data-test="btn-minus"
-                onclick="calculator.printAction('-')">
-          -
-        </button>
+                onclick="calculator.printAction('-')">-</button>
       </td>
     </tr>
     <tr>
       <td>
         <button class="app-button app-button-digit" type="button" data-test="btn-1"
-                onclick="calculator.printDigit('1')">1
-        </button>
+                onclick="calculator.printDigit('1')">1</button>
       </td>
       <td>
         <button class="app-button app-button-digit" type="button" data-test="btn-2"
-                onclick="calculator.printDigit('2')">2
-        </button>
+                onclick="calculator.printDigit('2')">2</button>
       </td>
       <td>
         <button class="app-button app-button-digit" type="button" data-test="btn-3"
-                onclick="calculator.printDigit('3')">3
-        </button>
+                onclick="calculator.printDigit('3')">3</button>
       </td>
       <td>
         <button class="app-button app-button-operator" type="button" data-test="btn-plus"
-                onclick="calculator.printAction('+')">+
-        </button>
+                onclick="calculator.printAction('+')">+</button>
       </td>
     </tr>
     <tr>
       <td colspan="2">
         <button class="app-button-long app-button-digit" type="button" data-test="btn-0"
-                onclick="calculator.printDigit('0')">0
-        </button>
+                onclick="calculator.printDigit('0')">0</button>
       </td>
       <td>
+        <!-- Замінив виклик крапки на printDigit('.') — якщо в твоєму JS інша логіка, віднови відповідно -->
         <button class="app-button app-button-digit" type="button" data-test="btn-dot"
-                onclick="calculator.printAction('.')">.
-        </button>
+                onclick="calculator.printDigit('.')">.</button>
       </td>
       <td>
-        <button class="app-button app-button-digit" type="button" data-test="btn-equal" onclick="calculator.solve()">=
-        </button>
+        <button class="app-button app-button-digit" type="button" data-test="btn-equal" onclick="calculator.solve()">=</button>
       </td>
     </tr>
   </table>
