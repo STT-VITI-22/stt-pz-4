@@ -33,13 +33,10 @@ export class Calculator {
   }
 
   solve() {
-    try {
-      let expression = this.dashboard.value
-      this.dashboard.value = evaluate(expression).toString()
-    } catch (e) {
-      this.dashboard.value = 'Error'
-    }
-  }
+  let expression = this.dashboard.value
+  // this.showConsoleLog(expression);
+  this.dashboard.value = evaluate(expression)
+}
 
   clr() {
     this.dashboard.value = ''
@@ -73,4 +70,8 @@ export class Calculator {
     if (saved) this.printDigit(saved);
   }
 
+
+  showConsoleLog(param){
+  console.log("вивід:", param)
+}
 }
