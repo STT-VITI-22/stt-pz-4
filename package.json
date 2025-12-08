@@ -4,8 +4,8 @@
   "description": "In this lesson is next step to understand BDD testing in javascript. Using Jest",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll",
-    "dev": " NODE_ENV=dev webpack-dev-server --progress=profile --color --port 8081",
+    "test": "jest",
+    "dev": "cross-env NODE_ENV=dev webpack-dev-server --progress --color --port 8081",
     "prod": "NODE_ENV=prod webpack --config webpack.production.config.js"
   },
   "repository": {
@@ -24,6 +24,7 @@
     "@types/hoist-non-react-statics": "^3.3.6",
     "@types/jest": "^29.5.14",
     "babel-loader": "^8.2.5",
+    "cross-env": "^10.1.0",
     "css-loader": "^6.7.1",
     "html-loader": "^5.1.0",
     "html-webpack-plugin": "^5.5.0",
