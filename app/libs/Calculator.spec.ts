@@ -134,4 +134,34 @@ describe('Test suite for Calculator.ts – BDD style (DOM-based)', () => {
       expect(localStorage.getItem('theme')).toBe('theme-one');
     });
   });
+ /* describe('square function', () => {
+    it('should square the current value', () => {
+      dashboard.value = '5';
+      calc.printAction('^2');
+      calc.solve();
+      expect(dashboard.value).toBe('25');
+    });
+
+    it('should handle squaring negative numbers', () => {
+      dashboard.value = '-4';
+      calc.printAction('^2');
+      calc.solve();
+      expect(dashboard.value).toBe('16');
+    });
+
+    it('should handle squaring zero', () => {
+      dashboard.value = '0';
+      calc.printAction('^2');
+      calc.solve();
+      expect(dashboard.value).toBe('0');
+    });
+
+    it('should handle squaring decimal numbers', () => {
+      dashboard.value = '3.5';
+      calc.printAction('^2');
+      calc.solve();
+      expect(dashboard.value).toBe('12.25');
+    });
+  }); 
+  */
 });
