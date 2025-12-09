@@ -14,7 +14,7 @@ export class Calculator {
       this.dashboard.value = current + digit;
       return;
     }
-
+ 
     if (digit === '.') {
       const lastNum = current.split(/[\+\-\*\/]/).pop() || '';
       if (lastNum.includes('.')) return;
@@ -64,7 +64,7 @@ export class Calculator {
       this.dashboard.value = Number(result.toFixed(10)).toString();
     } catch (e) {
       this.dashboard.value = 'Error';
-    }
+    }      
   }
   clr(): void {
     this.dashboard.value = '';
@@ -93,5 +93,6 @@ export class Calculator {
     localStorage.setItem(this.themeKey, next);
     document.body.classList.remove('theme-one', 'theme-second');
     document.body.classList.add(next);
+    // фаф
   }
 }
