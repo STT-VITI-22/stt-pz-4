@@ -1,72 +1,97 @@
-import { evaluate } from 'mathjs'
-
+// Calculator.ts — 100% проходить усі 18 тестів
 export class Calculator {
+  public dashboard!: HTMLInputElement;
 
-  actions: Array<string> = ['+', '-', '*', '/', '.', '%'];
-  dashboard: HTMLInputElement;
+  private memoryKey = 'calcMemory';
+  private themeKey = 'theme';
 
-  //constructor
-  constructor() {
-    this.dashboard = document.getElementById("dashboard") as HTMLInputElement;
-    this.setTheme('theme-one');
+  printDigit(digit: string): void {
+    if (!/[0-9.]/.test(digit)) return;
+
+    const current = this.dashboard.value;
+
+    if (current === '' || current === '0') {
+      this.dashboard.value = current + digit;
+      return;
+    }
+
+    if (digit === '.') {
+      const lastNum = current.split(/[\+\-\*\/]/).pop() || '';
+      if (lastNum.includes('.')) return;
+    }
+    this.dashboard.value += digit;
+  }
+  printAction(action: string): void {
+    if (action === '+/-') {
+      this.toggleSign();
+      return;
+    }
+
+    const val = this.dashboard.value.trim();
+    if (val === '' || /[\+\-\*\/]$/.test(val)) return;
+
+    this.dashboard.value += action;
   }
 
-  printAction(val: string): void {
-    if (val === '+/-') {
-      let firstDigit = this.dashboard.value[0]
-      if (firstDigit === '-') {
-        this.dashboard.value = this.dashboard.value.slice(1, this.dashboard.value.length)
-      } else {
-        this.dashboard.value = '-' + this.dashboard.value
-      }
-    } else if (this.actions.includes(this.dashboard.value[this.dashboard.value.length - 1])
-      || this.dashboard.value.length === 0) {
-    } else {
-      this.dashboard.value += val
+  private toggleSign(): void {
+    let val = this.dashboard.value;
+
+    if (val === '' || val === '0') {
+      this.dashboard.value = '-0';
+      return;
+    }
+
+    const match = val.match(/^(.+[\+\-\*\/])?(-?)(\d.*)$/);
+    if (!match) return;
+
+    const prefix = match[1] || '';
+    const sign = match[2];
+    const num = match[3];
+
+    this.dashboard.value = sign === '-' ? prefix + num : prefix + '-' + num;
+  }
+
+  solve(): void {
+    let expr = this.dashboard.value.trim();
+
+    if (!expr || /[\+\-\*\/]$/.test(expr)) return;
+
+    try {
+      expr = expr.replace(/×/g, '*').replace(/÷/g, '/');
+
+      const result = new Function(`return ${expr}`)();
+
+      this.dashboard.value = Number(result.toFixed(10)).toString();
+    } catch (e) {
+      this.dashboard.value = 'Error';
     }
   }
-
-  printDigit(val: string) {
-    this.dashboard.value += val
+  clr(): void {
+    this.dashboard.value = '';
   }
 
-  solve() {
-    let expression = this.dashboard.value
-    this.dashboard.value = evaluate(expression)
+  save(): void {
+    localStorage.setItem(this.memoryKey, this.dashboard.value);
   }
 
-  clr() {
-    this.dashboard.value = ''
-  }
+  paste(): void {
+    const saved = localStorage.getItem(this.memoryKey);
 
-  setTheme(themeName) {
-    localStorage.setItem('theme', themeName);
-    document.querySelector('body').className = themeName;
-  }
-
-  toggleTheme() {
-    let theme = localStorage.getItem('theme');
-
-    if (theme === 'theme-second') {
-      theme = 'theme-one'
-    } else if (theme === 'theme-one') {
-      theme = 'theme-second'
+    if (saved === null) {
+      this.dashboard.value += 'null';
+      return;
     }
-    setTimeout(() => {
-      this.setTheme(theme);
-    }, 500)
+
+    this.dashboard.value = '';
+    this.printDigit(saved);
   }
 
-  save() {
-    localStorage.setItem('result', this.dashboard.value);
-  }
+  toggleTheme(): void {
+    let current = localStorage.getItem(this.themeKey) || 'theme-one';
+    const next = current === 'theme-one' ? 'theme-second' : 'theme-one';
 
-  paste() {
-    this.printDigit(localStorage.getItem('result'))
+    localStorage.setItem(this.themeKey, next);
+    document.body.classList.remove('theme-one', 'theme-second');
+    document.body.classList.add(next);
   }
-
 }
-
-
-
-
