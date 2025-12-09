@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watchAll",
-    "dev": " NODE_ENV=dev webpack-dev-server --progress=profile --color --port 8081",
+    "dev": "cross-env NODE_ENV=dev webpack-dev-server --progress --color --port 8081",
     "prod": "NODE_ENV=prod webpack --config webpack.production.config.js"
   },
   "repository": {
@@ -40,6 +40,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "cross-env": "^10.1.0",
     "hoist-non-react-statics": "^3.3.2",
     "mathjs": "^14.3.1",
     "typescript": "^5.8.2"
