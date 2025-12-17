@@ -41,7 +41,7 @@ export class Calculator {
       this.dashboard.value = '-0';
       return;
     }
-
+// коментар
     const match = val.match(/^(.+[\+\-\*\/])?(-?)(\d.*)$/);
     if (!match) return;
 
@@ -97,7 +97,7 @@ export class Calculator {
     document.body.classList.add(next);
   }
 
-  // ✅
+  // добавив корінь 
   public squareRoot(): void {
     const val = this.dashboard.value.trim();
 
