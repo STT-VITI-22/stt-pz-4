@@ -1,4 +1,4 @@
-// Calculator.ts — 100% проходить усі 18 тестів
+// Calculator.ts — тепер має метод squareRoot
 export class Calculator {
   public dashboard!: HTMLInputElement;
 
@@ -21,6 +21,7 @@ export class Calculator {
     }
     this.dashboard.value += digit;
   }
+
   printAction(action: string): void {
     if (action === '+/-') {
       this.toggleSign();
@@ -66,6 +67,7 @@ export class Calculator {
       this.dashboard.value = 'Error';
     }      
   }
+
   clr(): void {
     this.dashboard.value = '';
   }
@@ -93,6 +95,24 @@ export class Calculator {
     localStorage.setItem(this.themeKey, next);
     document.body.classList.remove('theme-one', 'theme-second');
     document.body.classList.add(next);
-    // фаф
+  }
+
+  // ✅
+  public squareRoot(): void {
+    const val = this.dashboard.value.trim();
+
+    if (val === '' || isNaN(Number(val))) {
+      this.dashboard.value = 'Error';
+      return;
+    }
+
+    const num = Number(val);
+    if (num < 0) {
+      this.dashboard.value = 'Error';
+      return;
+    }
+
+    const result = Math.sqrt(num);
+    this.dashboard.value = Number(result.toFixed(10)).toString();
   }
 }
