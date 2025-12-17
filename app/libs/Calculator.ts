@@ -5,7 +5,6 @@ export class Calculator {
   actions: Array<string> = ['+', '-', '*', '/', '.', '%'];
   dashboard: HTMLInputElement;
 
-  //constructor
   constructor() {
     this.dashboard = document.getElementById("dashboard") as HTMLInputElement;
     this.setTheme('theme-one');
@@ -19,8 +18,10 @@ export class Calculator {
       } else {
         this.dashboard.value = '-' + this.dashboard.value
       }
-    } else if (this.actions.includes(this.dashboard.value[this.dashboard.value.length - 1])
-      || this.dashboard.value.length === 0) {
+    } else if (this.dashboard.value.length === 0) {
+      return
+    } else if (this.actions.includes(this.dashboard.value[this.dashboard.value.length - 1])) {
+      return
     } else {
       this.dashboard.value += val
     }
@@ -37,11 +38,12 @@ export class Calculator {
 
   clr() {
     this.dashboard.value = ''
+    this.dashboard.focus()
   }
 
-  setTheme(themeName) {
+  setTheme(themeName: string) {
     localStorage.setItem('theme', themeName);
-    document.querySelector('body').className = themeName;
+    document.querySelector('body')!.className = themeName;
   }
 
   toggleTheme() {
@@ -53,7 +55,7 @@ export class Calculator {
       theme = 'theme-second'
     }
     setTimeout(() => {
-      this.setTheme(theme);
+      this.setTheme(theme!);
     }, 500)
   }
 
@@ -62,11 +64,12 @@ export class Calculator {
   }
 
   paste() {
-    this.printDigit(localStorage.getItem('result'))
+    const saved = localStorage.getItem('result');
+    if (saved) this.printDigit(saved);
   }
 
+
+  showConsoleLog(param) {
+    console.log("вивід:", param)
+  }
 }
-
-
-
-
