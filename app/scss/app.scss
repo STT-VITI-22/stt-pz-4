@@ -1,6 +1,6 @@
-@import "reset";
-@import "variables";
-@import "theme";
+@use "reset";
+@use "variables";
+@use "theme";
 
 body{
   min-width: 400px;

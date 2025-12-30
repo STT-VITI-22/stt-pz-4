@@ -2,7 +2,7 @@ import { evaluate } from 'mathjs'
 
 export class Calculator {
 
-  actions: Array<string> = ['+', '-', '*', '/', '.', '%'];
+  actions: Array<string> = ['+', '-', '*', '/', '.', '%', '^2'];
   dashboard: HTMLInputElement;
 
   //constructor
@@ -33,10 +33,14 @@ export class Calculator {
   }
 
   solve() {
-  let expression = this.dashboard.value
-  // this.showConsoleLog(expression);
-  this.dashboard.value = evaluate(expression)
-}
+    let expression = this.dashboard.value
+    
+    // Замінюємо ^2 на **2 для обчислення степеня
+    expression = expression.replace(/\^2/g, '^(2)');
+    
+    // this.showConsoleLog(expression);
+    this.dashboard.value = evaluate(expression)
+  }
 
   clr() {
     this.dashboard.value = ''
@@ -74,4 +78,14 @@ export class Calculator {
   showConsoleLog(param){
   console.log("вивід:", param)
 }
+  // ...інші методи...
+
+  square(): void {
+    if (this.dashboard.value.length === 0) return;
+
+    const current = Number(this.dashboard.value);
+    if (!isNaN(current)) {
+      this.dashboard.value = (current * current).toString();
+    }
+  }
 }

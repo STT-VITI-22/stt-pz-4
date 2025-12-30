@@ -117,6 +117,75 @@ describe('Тестовий набір для Calculator.ts (повне QA-пок
     calculator.solve();
     expect(Number(calculator.dashboard.value)).toBeCloseTo(0.5);
   });
+  
+  it('printAction додає ^2 після числа', () => {
+    calculator.dashboard.value = '5';
+    calculator.printAction('^2');
+    expect(calculator.dashboard.value).toBe('5^2');
+  });
+
+  
+  it('solve правильно обчислює 5^2 = 25', () => {
+    calculator.dashboard.value = '5^2';
+    calculator.solve();
+    expect(calculator.dashboard.value).toBe('25');
+  });
+
+  
+  it('solve правильно обчислює -3^2 = -9', () => {
+    calculator.dashboard.value = '-3^2';
+    calculator.solve();
+    expect(calculator.dashboard.value).toBe('-9');
+  });
+
+  
+  it('solve правильно обчислює 2.5^2 = 6.25', () => {
+    calculator.dashboard.value = '2.5^2';
+    calculator.solve();
+    expect(Number(calculator.dashboard.value)).toBeCloseTo(6.25);
+  });
+
+  
+  it('solve правильно обчислює 0^2 = 0', () => {
+    calculator.dashboard.value = '0^2';
+    calculator.solve();
+    expect(calculator.dashboard.value).toBe('0');
+  });
+
+  
+  it('solve правильно обчислює 3^2+4 = 13', () => {
+    calculator.dashboard.value = '3^2+4';
+    calculator.solve();
+    expect(calculator.dashboard.value).toBe('13');
+  });
+
+  
+  it('solve правильно обчислює 2*3^2 = 18', () => {
+    calculator.dashboard.value = '2*3^2';
+    calculator.solve();
+    expect(calculator.dashboard.value).toBe('18');
+  });
+
+  
+  it('solve правильно обчислює 2^2+3^2 = 13', () => {
+    calculator.dashboard.value = '2^2+3^2';
+    calculator.solve();
+    expect(calculator.dashboard.value).toBe('13');
+  });
+
+  
+  it('solve правильно обчислює 100^2 = 10000', () => {
+    calculator.dashboard.value = '100^2';
+    calculator.solve();
+    expect(calculator.dashboard.value).toBe('10000');
+  });
+
+  
+  it('printAction не додає ^2 на порожньому полі', () => {
+    calculator.dashboard.value = '';
+    calculator.printAction('^2');
+    expect(calculator.dashboard.value).toBe('');
+  });
 
   // ---------------- solve ----------------
 
@@ -232,7 +301,7 @@ describe('Тестовий набір для Calculator.ts (повне QA-пок
   
   // ---------------- Ініціалізація ----------------
   it('масив actions має правильні оператори', () => {
-    expect(calculator.actions).toEqual(['+', '-', '*', '/', '.', '%']);
+    expect(calculator.actions).toEqual(['+', '-', '*', '/', '.', '%', '^2']);
   });
 
   it('dashboard ініціалізується як HTMLInputElement', () => {
@@ -240,10 +309,7 @@ describe('Тестовий набір для Calculator.ts (повне QA-пок
     expect(calculator.dashboard.id).toBe('dashboard');
   });
 
-
-
-
-it('clr очищає значення dashboard і викликає focus()', () => {
+  it('clr очищує значення dashboard і викликає focus()', () => {
     calculator.dashboard.value = "12345";
 
     const focusSpy = jest.spyOn(calculator.dashboard, 'focus');
@@ -262,6 +328,34 @@ it('clr очищає значення dashboard і викликає focus()', ()
     expect(setItemSpy).toHaveBeenCalledWith('theme', 'theme-second');
     expect(document.body.className).toBe('theme-second');
   });
+  
+it('solve правильно обчислює квадрат великого числа 9999^2', () => {
+  calculator.dashboard.value = '9999^2';
+  calculator.solve();
+  expect(Number(calculator.dashboard.value)).toBeCloseTo(99980001);
+});
 
+
+it('solve обчислює суму багатьох квадратів без падіння', () => {
+  calculator.dashboard.value = '1^2+2^2+3^2+4^2+5^2+6^2+7^2+8^2+9^2+10^2';
+  calculator.solve();
+  expect(calculator.dashboard.value).toBe('385'); // 1+4+9+16+25+36+49+64+81+100
+});
+
+
+it('solve обчислює складний вираз 10^2-5^2*2+3^2/3 без помилок', () => {
+  calculator.dashboard.value = '10^2-5^2*2+3^2/3';
+  calculator.solve();
+  expect(() => calculator.solve()).not.toThrow();
+  expect(!isNaN(Number(calculator.dashboard.value))).toBe(true);
+});
+
+
+it('квадрат дуже довгого числа не падає', () => {
+  const longNumber = '9'.repeat(50);
+  calculator.dashboard.value = longNumber + '^2';
+  expect(() => calculator.solve()).not.toThrow();
+  expect(calculator.dashboard.value).not.toBe('');
+});
 
 });

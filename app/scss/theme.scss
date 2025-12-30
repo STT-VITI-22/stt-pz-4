@@ -1,10 +1,16 @@
-@import "variables";
-@import "mixin";
+@use "variables";
+@use "mixin";
 
 .theme-one {
-  @include theme($button-operator-theme-one, $button-digit-theme-one);
-
+  @include mixin.theme(
+    variables.$button-operator-theme-one,
+    variables.$button-digit-theme-one
+  );
 }
+
 .theme-second {
-  @include theme($button-operator-theme-second, $button-digit-theme-second);
+  @include mixin.theme(
+    variables.$button-operator-theme-second,
+    variables.$button-digit-theme-second
+  );
 }
