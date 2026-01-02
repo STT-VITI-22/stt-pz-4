@@ -234,103 +234,71 @@ describe('Тестовий набір для Calculator.ts (повне QA-пок
 
 
 
-// it('clr очищає значення dashboard і викликає focus()', () => {
-//     calculator.dashboard.value = "12345";
+it('clr очищає значення dashboard і викликає focus()', () => {
+    calculator.dashboard.value = "12345";
 
-//     const focusSpy = jest.spyOn(calculator.dashboard, 'focus');
+    const focusSpy = jest.spyOn(calculator.dashboard, 'focus');
 
-//     calculator.clr();
+    calculator.clr();
 
-//     expect(calculator.dashboard.value).toBe('');
-//     expect(focusSpy).toHaveBeenCalled();
-//   });
+    expect(calculator.dashboard.value).toBe('');
+    expect(focusSpy).toHaveBeenCalled();
+  });
 
-//   it('setTheme зберігає тему в localStorage і встановлює className body', () => {
-//     const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+  it('setTheme зберігає тему в localStorage і встановлює className body', () => {
+    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
 
-//     calculator.setTheme('theme-second');
+    calculator.setTheme('theme-second');
 
-//     expect(setItemSpy).toHaveBeenCalledWith('theme', 'theme-second');
-//     expect(document.body.className).toBe('theme-second');
-//   });
-//   it('toggleTheme перемикає з theme-second на theme-one', () => {
-//     localStorage.setItem('theme', 'theme-second');
-//     const setThemeSpy = jest.spyOn(calculator, 'setTheme');
+    expect(setItemSpy).toHaveBeenCalledWith('theme', 'theme-second');
+    expect(document.body.className).toBe('theme-second');
+  });
+  it('toggleTheme перемикає з theme-second на theme-one', () => {
+    localStorage.setItem('theme', 'theme-second');
+    const setThemeSpy = jest.spyOn(calculator, 'setTheme');
 
-//     calculator.toggleTheme();
+    calculator.toggleTheme();
 
-//     // setTimeout всередині toggleTheme — тому чекаємо 500мс + трохи
-//     setTimeout(() => {
-//       expect(setThemeSpy).toHaveBeenCalledWith('theme-one');
-//     }, 600);
-//   });
-//   it('toggleTheme перемикає з theme-one на theme-second', () => {
-//     localStorage.setItem('theme', 'theme-one');
-//     const setThemeSpy = jest.spyOn(calculator, 'setTheme');
+    // setTimeout всередині toggleTheme — тому чекаємо 500мс + трохи
+    setTimeout(() => {
+      expect(setThemeSpy).toHaveBeenCalledWith('theme-one');
+    }, 600);
+  });
+  it('toggleTheme перемикає з theme-one на theme-second', () => {
+    localStorage.setItem('theme', 'theme-one');
+    const setThemeSpy = jest.spyOn(calculator, 'setTheme');
 
-//     calculator.toggleTheme();
+    calculator.toggleTheme();
 
-//     setTimeout(() => {
-//       expect(setThemeSpy).toHaveBeenCalledWith('theme-second');
-//     }, 600);
-//   });
-//   it('toggleTheme правильно працює, коли тема ще не встановлена (за замовчуванням → theme-second)', () => {
-//     localStorage.removeItem('theme'); // немає збереженої теми
-//     const setThemeSpy = jest.spyOn(calculator, 'setTheme');
+    setTimeout(() => {
+      expect(setThemeSpy).toHaveBeenCalledWith('theme-second');
+    }, 600);
+  });
+  it('toggleTheme правильно працює, коли тема ще не встановлена (за замовчуванням → theme-second)', () => {
+    localStorage.removeItem('theme'); // немає збереженої теми
+    const setThemeSpy = jest.spyOn(calculator, 'setTheme');
 
-//     calculator.toggleTheme();
+    calculator.toggleTheme();
 
-//     setTimeout(() => {
-//       expect(setThemeSpy).toHaveBeenCalledWith('theme-second');
-//     }, 600);
-//   });
-//   it('save зберігає поточне значення dashboard у localStorage', () => {
-//     calculator.dashboard.value = "42";
-//     const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
+    setTimeout(() => {
+      expect(setThemeSpy).toHaveBeenCalledWith('theme-second');
+    }, 600);
+  });
+  it('save зберігає поточне значення dashboard у localStorage', () => {
+    calculator.dashboard.value = "42";
+    const setItemSpy = jest.spyOn(Storage.prototype, 'setItem');
 
-//     calculator.save();
+    calculator.save();
 
-//     expect(setItemSpy).toHaveBeenCalledWith('result', '42');
-//   });
-//   it('paste вставляє збережене значення через printDigit, якщо воно є', () => {
-//     localStorage.setItem('result', '777');
-//     const printDigitSpy = jest.spyOn(calculator, 'printDigit');
+    expect(setItemSpy).toHaveBeenCalledWith('result', '42');
+  });
+  it('paste вставляє збережене значення через printDigit, якщо воно є', () => {
+    localStorage.setItem('result', '777');
+    const printDigitSpy = jest.spyOn(calculator, 'printDigit');
 
-//     calculator.paste();
+    calculator.paste();
 
-//     expect(printDigitSpy).toHaveBeenCalledWith('777');
-//   });
-
-
-//   it('showConsoleLog викликає console.log з правильним параметром', () => {
-//   const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
-
-//   calculator.showConsoleLog('hello');
-
-//   expect(spy).toHaveBeenCalledWith('вивід:', 'hello');
-
-//   spy.mockRestore();
-// });
-
-// it('showConsoleLog передає текст "вивід:" і параметр', () => {
-//   const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
-
-//   calculator.showConsoleLog(5);
-
-//   expect(spy).toHaveBeenCalledWith('вивід:', 5);
-
-//   spy.mockRestore();
-// });
-
-// it('showConsoleLog працює з масивом', () => {
-//   const spy = jest.spyOn(console, 'log').mockImplementation(() => {});
-
-//   calculator.showConsoleLog([1,2,3]);
-
-//   expect(spy).toHaveBeenCalledWith('вивід:', [1,2,3]);
-
-//   spy.mockRestore();
-// });
-
+    expect(printDigitSpy).toHaveBeenCalledWith('777');
+  });
 
 });
