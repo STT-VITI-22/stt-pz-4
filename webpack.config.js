@@ -11,16 +11,14 @@ module.exports = {
   output: {
     path: path.join(__dirname, './build'),
     publicPath: "/",
-    filename: '[name].bundle.js' //adding [name], fixed bug with multi-loading
+    filename: '[name].bundle.js'
   },
   devtool: 'source-map',
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: [
-          'ts-loader',
-        ],
+        use: ['ts-loader'],
         exclude: /node_modules/
       },
       {
@@ -43,50 +41,22 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
+              sourceMap: true,
               sassOptions: {
-                includePaths: [
-                ],
-                sourceMap: true
+                quietDeps: true, // ✅ Придушує Sass deprecation warnings
+                includePaths: []
               }
             }
           }
         ]
       },
       {
-        test: /.*\.(gif|png|jpe?g|svg)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: 'hash=sha512&digest=hex&name=[hash].[ext]',
-              esModule: false,
-            }
-          },
-          {
-            loader: 'image-webpack-loader',
-            options: {
-              mozjpeg: {
-                progressive: true,
-                quality: 65
-              },
-              // optipng.enabled: false will disable optipng
-              optipng: {
-                enabled: false,
-              },
-              pngquant: {
-                quality: [0.65, 0.90],
-                speed: 4
-              },
-              gifsicle: {
-                interlaced: false,
-              },
-              // the webp option will enable WEBP
-              webp: {
-                quality: 75
-              }
-            }
-          }
-        ]
+        test: /\.(gif|png|jpe?g|svg)$/i,
+        type: 'asset/resource', // ✅ Замість file-loader (застарів)
+        generator: {
+          filename: 'images/[hash][ext][query]'
+        },
+        exclude: /fonts/ // Виключаємо SVG шрифти
       },
       {
         test: /\.html$/,
@@ -94,21 +64,38 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.(otf|eot|svg|ttf|woff2|woff)/,
-        use: 'url-loader?limit=8192',
-        exclude: /img/
+        test: /\.(otf|eot|ttf|woff2?|svg)$/,
+        type: 'asset/inline', // ✅ Замість url-loader (застарів)
+        include: /fonts/, // Тільки шрифти
+        parser: {
+          dataUrlCondition: {
+            maxSize: 8192 // 8kb limit
+          }
+        }
       }
     ]
-
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.tsx', '.js'] // ✅ Додано .tsx
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './app/index.html' }),
+    new HtmlWebpackPlugin({ 
+      template: './app/index.html',
+      inject: 'body' // ✅ Додано для правильної інжекції скриптів
+    }),
     new webpack.DefinePlugin({
       ENV: JSON.stringify(process.env.NODE_ENV),
-      HASH: JSON.stringify(new Date().getTime().toString('16'))
+      HASH: JSON.stringify(Date.now().toString(16)) // ✅ Виправлено синтаксис
     })
-  ]
-}
+  ],
+  // ✅ Додано devServer конфігурацію
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'build')
+    },
+    compress: true,
+    port: 8081,
+    hot: true,
+    open: true
+  }
+};

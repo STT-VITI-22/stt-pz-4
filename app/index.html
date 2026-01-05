@@ -31,29 +31,23 @@
   <table>
     <tr align="center">
       <td colspan="4"><input class="app-result" type="text" data-test="dashboard" id="dashboard"></td>
-    </tr>
-    <tr>
-      <td>
-        <button class="app-button app-button-operator" type="button" data-test="btn-clr" onclick="calculator.clr()">AC
-        </button>
-      </td>
-      <td>
-        <button class="app-button app-button-operator" type="button" data-test="btn-plus-minus"
-                onclick="calculator.printAction('+/-')">+/-
-        </button>
-      </td>
-      <td>
-        <button class="app-button app-button-operator" type="button" data-test="btn-percentages"
-                onclick="calculator.printAction('%')">%
-        </button>
-      </td>
-      <td>
-        <button class="app-button app-button-operator" type="button" data-test="btn-slash"
-                onclick="calculator.printAction('/')">
-          /
-        </button>
-      </td>
-    </tr>
+    </tr><tr>
+  <td>
+    <button class="app-button app-button-operator" type="button" data-test="btn-clr" onclick="calculator.clr()">AC</button>
+  </td>
+  <td>
+    <button class="app-button app-button-operator" type="button" data-test="btn-plus-minus" onclick="calculator.printAction('+/-')">+/-</button>
+  </td>
+  <td>
+    <button class="app-button app-button-operator" type="button" data-test="btn-percentages" onclick="calculator.printAction('%')">%</button>
+  </td>
+  <td>
+    <button class="app-button app-button-operator" type="button" data-test="btn-sqrt" onclick="calculator.sqrt()">√</button>
+  </td>
+  <td>
+    <button class="app-button app-button-operator" type="button" data-test="btn-slash" onclick="calculator.printAction('/')">/</button>
+  </td>
+</tr>
     <tr>
       <td>
         <button class="app-button app-button-digit" type="button" onclick="calculator.calculator.printDigit('7')">7

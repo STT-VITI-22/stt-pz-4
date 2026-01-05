@@ -19,8 +19,10 @@ export class Calculator {
       } else {
         this.dashboard.value = '-' + this.dashboard.value
       }
-    } else if (this.actions.includes(this.dashboard.value[this.dashboard.value.length - 1])
-      || this.dashboard.value.length === 0) {
+    } else if (this.dashboard.value.length === 0) {
+      return
+    } else if (this.actions.includes(this.dashboard.value[this.dashboard.value.length - 1])) {
+      return
     } else {
       this.dashboard.value += val
     }
@@ -31,17 +33,19 @@ export class Calculator {
   }
 
   solve() {
-    let expression = this.dashboard.value
-    this.dashboard.value = evaluate(expression)
-  }
+  let expression = this.dashboard.value
+  // this.showConsoleLog(expression);
+  this.dashboard.value = evaluate(expression)
+}
 
   clr() {
     this.dashboard.value = ''
+    this.dashboard.focus()
   }
 
-  setTheme(themeName) {
+  setTheme(themeName: string) {
     localStorage.setItem('theme', themeName);
-    document.querySelector('body').className = themeName;
+    document.querySelector('body')!.className = themeName;
   }
 
   toggleTheme() {
@@ -53,7 +57,7 @@ export class Calculator {
       theme = 'theme-second'
     }
     setTimeout(() => {
-      this.setTheme(theme);
+      this.setTheme(theme!);
     }, 500)
   }
 
@@ -62,11 +66,27 @@ export class Calculator {
   }
 
   paste() {
-    this.printDigit(localStorage.getItem('result'))
+    const saved = localStorage.getItem('result');
+    if (saved) this.printDigit(saved);
   }
+  
+  sqrt(): void {
+  if (!this.dashboard.value) return;
 
+  try {
+    const value = evaluate(this.dashboard.value);
+
+    if (typeof value !== 'number') return;
+
+    if (value < 0) {
+      alert('Неможливо взяти корінь з відʼємного числа');
+      return;
+    }
+
+    this.dashboard.value = Math.sqrt(value).toString();
+  } catch (e) {
+    alert('Помилка у виразі');
+  }
 }
 
-
-
-
+}
