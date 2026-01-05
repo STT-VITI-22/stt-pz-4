@@ -13,6 +13,10 @@ export class Calculator {
 
   printAction(val: string): void {
     if (val === '+/-') {
+      if (this.dashboard.value.length === 0) {
+        return; 
+      }
+      
       let firstDigit = this.dashboard.value[0]
       if (firstDigit === '-') {
         this.dashboard.value = this.dashboard.value.slice(1, this.dashboard.value.length)
@@ -21,6 +25,9 @@ export class Calculator {
       }
     } else if (this.actions.includes(this.dashboard.value[this.dashboard.value.length - 1])
       || this.dashboard.value.length === 0) {
+        if (this.dashboard.value.length === 0 && val === '.') {
+            this.dashboard.value = '0.'
+        }
     } else {
       this.dashboard.value += val
     }
@@ -32,7 +39,7 @@ export class Calculator {
 
   solve() {
     let expression = this.dashboard.value
-    this.dashboard.value = evaluate(expression)
+    this.dashboard.value = String(evaluate(expression)) 
   }
 
   clr() {
@@ -51,6 +58,8 @@ export class Calculator {
       theme = 'theme-one'
     } else if (theme === 'theme-one') {
       theme = 'theme-second'
+    } else if (!theme) {
+      theme = 'theme-one'; 
     }
     setTimeout(() => {
       this.setTheme(theme);
@@ -64,9 +73,4 @@ export class Calculator {
   paste() {
     this.printDigit(localStorage.getItem('result'))
   }
-
 }
-
-
-
-
