@@ -61,9 +61,9 @@ export class Calculator {
     let result: number;
 
     switch (this.currentAction) {
-      case '+':
+      /*case '+':
         result = prev + current;
-        break;
+        break;*/
       case '-':
         result = prev - current;
         break;
@@ -215,3 +215,4 @@ export class Calculator {
 
 export default Calculator;
 
+/*123*/
