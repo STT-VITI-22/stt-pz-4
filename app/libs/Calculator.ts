@@ -61,15 +61,15 @@ export class Calculator {
     let result: number;
 
     switch (this.currentAction) {
-      /*case '+':
+      case '+':
         result = prev + current;
-        break;*/
+        break;
       case '-':
         result = prev - current;
         break;
-      case '*':
+      /*case '*':
         result = prev * current;
-        break;
+        break;*/
       case '/':
         if (current === 0) {
           this.dashboard.value = 'Error: Division by zero';
