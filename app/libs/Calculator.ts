@@ -69,4 +69,24 @@ export class Calculator {
     const saved = localStorage.getItem('result');
     if (saved) this.printDigit(saved);
   }
+  
+  sqrt(): void {
+  if (!this.dashboard.value) return;
+
+  try {
+    const value = evaluate(this.dashboard.value);
+
+    if (typeof value !== 'number') return;
+
+    if (value < 0) {
+      alert('Неможливо взяти корінь з відʼємного числа');
+      return;
+    }
+
+    this.dashboard.value = Math.sqrt(value).toString();
+  } catch (e) {
+    alert('Помилка у виразі');
+  }
+}
+
 }

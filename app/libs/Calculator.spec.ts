@@ -300,5 +300,67 @@ it('clr очищає значення dashboard і викликає focus()', ()
 
     expect(printDigitSpy).toHaveBeenCalledWith('777');
   });
+  // ---------------- Square Root ----------------
 
+it('sqrt обчислює корінь з додатного числа', () => {
+  calculator.dashboard.value = '9';
+  calculator.sqrt();
+  expect(calculator.dashboard.value).toBe('3');
+});
+
+it('sqrt обчислює корінь з виразу', () => {
+  calculator.dashboard.value = '16+9';
+  calculator.sqrt();
+  expect(calculator.dashboard.value).toBe('5');
+});
+
+it('sqrt нічого не робить при порожньому полі', () => {
+  calculator.dashboard.value = '';
+  calculator.sqrt();
+  expect(calculator.dashboard.value).toBe('');
+});
+
+it('sqrt не змінює значення при відʼємному числі', () => {
+  jest.spyOn(window, 'alert').mockImplementation(() => {});
+  calculator.dashboard.value = '-4';
+  calculator.sqrt();
+  expect(calculator.dashboard.value).toBe('-4');
+});
+
+it('sqrt показує alert при відʼємному числі', () => {
+  const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+  calculator.dashboard.value = '-9';
+  calculator.sqrt();
+  expect(alertSpy).toHaveBeenCalled();
+});
+
+it('sqrt показує alert при некоректному виразі', () => {
+  const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+  calculator.dashboard.value = '5++2';
+  calculator.sqrt();
+  expect(alertSpy).toHaveBeenCalled();
+});
+it('sqrt записує результат Math.sqrt у dashboard', () => {
+  calculator.dashboard.value = '25';
+
+  calculator.sqrt();
+
+  expect(calculator.dashboard.value).toBe('5');
+});
+it('sqrt показує alert при помилці у виразі (catch)', () => {
+  const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+  calculator.dashboard.value = '5+*2'; // ❌ некоректний вираз
+
+  calculator.sqrt();
+
+  expect(alertSpy).toHaveBeenCalledWith('Помилка у виразі');
+});
+it('sqrt нічого не робить, якщо evaluate повертає не number', () => {
+  calculator.dashboard.value = 'sqrt(-4)'; // mathjs → Complex
+
+  calculator.sqrt();
+
+  expect(calculator.dashboard.value).toBe('sqrt(-4)');
+});
 });
