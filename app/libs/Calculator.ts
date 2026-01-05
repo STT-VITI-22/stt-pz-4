@@ -88,9 +88,9 @@ export class Calculator {
     this.currentValue = result.toString();
   }
 
-  /**
+  
    * Clear calculator
-   */
+   
   clear(): void {
     this.dashboard.value = '0';
     this.currentValue = '';
